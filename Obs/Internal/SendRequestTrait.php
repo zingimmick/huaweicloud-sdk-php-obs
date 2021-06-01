@@ -75,7 +75,7 @@ trait SendRequestTrait
 	    return $this->createCommonSignedUrl($args, 'v2');
 	}
 	
-	private function createCommonSignedUrl(array $args=[], $signature) {
+	private function createCommonSignedUrl(array $args, $signature) {
 	    if(!isset($args['Method'])){
 	        $obsException = new ObsException('Method param must be specified, allowed values: GET | PUT | HEAD | POST | DELETE | OPTIONS');
 	        $obsException-> setExceptionType('client');
