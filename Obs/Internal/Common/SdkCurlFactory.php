@@ -34,7 +34,7 @@ class SdkCurlFactory implements CurlFactoryInterface
         $this->maxHandles = $maxHandles;
     }
 
-    public function create(RequestInterface $request, array $options)
+    public function create(RequestInterface $request, array $options): EasyHandle
     {
         if (isset($options['curl']['body_as_string'])) {
             $options['_body_as_string'] = $options['curl']['body_as_string'];
@@ -78,7 +78,7 @@ class SdkCurlFactory implements CurlFactoryInterface
     	}
     }
 
-    public function release(EasyHandle $easy)
+    public function release(EasyHandle $easy): void
     {
         $resource = $easy->handle;
         unset($easy->handle);
