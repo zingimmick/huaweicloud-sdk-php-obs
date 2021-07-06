@@ -265,7 +265,7 @@ class SdkCurlFactory implements CurlFactoryInterface
         if (isset($options['sink'])) {
             $sink = $options['sink'];
             if (!is_string($sink)) {
-                $sink = \GuzzleHttp\Psr7\stream_for($sink);
+                $sink = Psr7\Utils::streamFor($sink);
             } elseif (!is_dir(dirname($sink))) {
                 throw new \RuntimeException(sprintf(
                     'Directory %s does not exist for sink value of %s',
@@ -281,7 +281,7 @@ class SdkCurlFactory implements CurlFactoryInterface
             };
         } else {
             $conf[CURLOPT_FILE] = fopen('php://temp', 'w+');
-            $easy->sink = Psr7\stream_for($conf[CURLOPT_FILE]);
+            $easy->sink = Psr7\Utils::streamFor($conf[CURLOPT_FILE]);
         }
         $timeoutRequiresNoSignal = false;
         if (isset($options['timeout'])) {

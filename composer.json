@@ -3,11 +3,14 @@
 	"description" : "OBS PHP SDK",
 	"license":"Apache-2.0",
 	"require" : {
-		"php" : ">=7.1",
-		"guzzlehttp/guzzle" : "^6.3.1 || ^7.0.1",
-		"monolog/monolog" : "^1.12 || ^2.0"
+		"php": ">=7.1",
+		"guzzlehttp/guzzle": "^6.3.1 || ^7.0.1",
+		"guzzlehttp/psr7": "^1.7 || ^2.0",
+		"monolog/monolog": "^1.12 || ^2.0"
 	},
-
+	"config": {
+		"sort-packages": true
+	},
 	"keywords" :["obs", "php"],
 	"autoload": {
 		"psr-4": {
