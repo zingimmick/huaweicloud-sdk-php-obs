@@ -24,9 +24,9 @@ use Obs\Log\ObsLog;
 class ObsException extends \RuntimeException
 {
 	const CLIENT = 'client';
-	
+
 	const SERVER = 'server';
-	
+
     private $response;
 
     private $request;
@@ -34,18 +34,18 @@ class ObsException extends \RuntimeException
     private $requestId;
 
     private $exceptionType;
-        
+
     private $exceptionCode;
-    
+
     private $exceptionMessage;
-    
+
     private $hostId;
-	
-    public function __construct ($message = null, $code = null, $previous = null) 
+
+    public function __construct ($message = '', $code = 0, $previous = null)
     {
     	parent::__construct($message, $code, $previous);
     }
-    
+
     public function setExceptionCode($exceptionCode)
     {
         $this->exceptionCode = $exceptionCode;
@@ -55,12 +55,12 @@ class ObsException extends \RuntimeException
     {
         return $this->exceptionCode;
     }
-    
+
     public function setExceptionMessage($exceptionMessage)
     {
         $this->exceptionMessage = $exceptionMessage;
     }
-    
+
     public function getExceptionMessage()
     {
     	return $this->exceptionMessage ? $this->exceptionMessage : $this->message;
@@ -110,11 +110,11 @@ class ObsException extends \RuntimeException
     {
         return $this->response ? $this->response->getStatusCode() : -1;
     }
-    
+
     public function setHostId($hostId){
     	$this->hostId = $hostId;
     }
-    
+
     public function getHostId(){
     	return $this->hostId;
     }
@@ -132,9 +132,9 @@ class ObsException extends \RuntimeException
             $message .= ', ' . 'User-Agent: ' . $this->request->getHeaderLine('User-Agent');
         }
         $message .= "\n";
-        
+
         ObsLog::commonLog(INFO, "http request:status:%d, %s",$this->getStatusCode(),"code:".$this->getExceptionCode().", message:".$this->getMessage());
         return $message;
     }
-    
+
 }
