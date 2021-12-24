@@ -27,51 +27,53 @@ namespace Obs\Internal\Common;
 class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInterface
 {
 	protected $data;
-	
+
 	public function __construct(array $data = [])
 	{
 		$this->data = $data;
 	}
-	
+
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return count($this->data);
 	}
-	
+
+    #[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new \ArrayIterator($this->data);
 	}
-	
+
 	public function toArray()
 	{
 		return $this->data;
 	}
-	
+
 	public function clear()
 	{
 		$this->data = [];
-		
+
 		return $this;
 	}
-	
+
 	public function getAll(array $keys = null)
 	{
 		return $keys ? array_intersect_key($this->data, array_flip($keys)) : $this->data;
 	}
-	
+
 	public function get($key)
 	{
 		return isset($this->data[$key]) ? $this->data[$key] : null;
 	}
-	
+
 	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
-		
+
 		return $this;
 	}
-	
+
 	public function add($key, $value)
 	{
 		if (!array_key_exists($key, $this->data)) {
@@ -81,27 +83,27 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 		} else {
 			$this->data[$key] = [$this->data[$key], $value];
 		}
-		
+
 		return $this;
 	}
-	
+
 	public function remove($key)
 	{
 		unset($this->data[$key]);
-		
+
 		return $this;
 	}
-	
+
 	public function getKeys()
 	{
 		return array_keys($this->data);
 	}
-	
+
 	public function hasKey($key)
 	{
 		return array_key_exists($key, $this->data);
 	}
-	
+
 	public function keySearch($key)
 	{
 		foreach (array_keys($this->data) as $k) {
@@ -109,32 +111,32 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				return $k;
 			}
 		}
-		
+
 		return false;
 	}
-	
-	
+
+
 	public function hasValue($value)
 	{
 		return array_search($value, $this->data);
 	}
-	
+
 	public function replace(array $data)
 	{
 		$this->data = $data;
-		
+
 		return $this;
 	}
-	
+
 	public function merge($data)
 	{
 		foreach ($data as $key => $value) {
 			$this->add($key, $value);
 		}
-		
+
 		return $this;
 	}
-	
+
 	public function overwriteWith($data)
 	{
 		if (is_array($data)) {
@@ -144,20 +146,20 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				$this->data[$key] = $value;
 			}
 		}
-		
+
 		return $this;
 	}
-	
+
 	public function map(\Closure $closure, array $context = [], $static = true)
 	{
 		$collection = $static ? new static() : new self();
 		foreach ($this as $key => $value) {
 			$collection->add($key, $closure($key, $value, $context));
 		}
-		
+
 		return $collection;
 	}
-	
+
 	public function filter(\Closure $closure, $static = true)
 	{
 		$collection = ($static) ? new static() : new self();
@@ -166,30 +168,34 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				$collection->add($key, $value);
 			}
 		}
-		
+
 		return $collection;
 	}
-	
+
+    #[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($this->data[$offset]);
 	}
-	
+
+    #[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return isset($this->data[$offset]) ? $this->data[$offset] : null;
 	}
-	
+
+    #[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		$this->data[$offset] = $value;
 	}
-	
+
+    #[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->data[$offset]);
 	}
-	
+
 	public function setPath($path, $value)
 	{
 		$current =& $this->data;
@@ -206,16 +212,16 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				$current =& $current[$key];
 			}
 		}
-		
+
 		return $this;
 	}
-	
+
 	public function getPath($path, $separator = '/', $data = null)
 	{
 		if ($data === null) {
 			$data =& $this->data;
 		}
-		
+
 		$path = is_array($path) ? $path : explode($separator, $path);
 		while (null !== ($part = array_shift($path))) {
 			if (!is_array($data)) {
@@ -237,10 +243,10 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				return $result;
 			}
 		}
-		
+
 		return $data;
 	}
-	
+
 	public function __toString()
 	{
 		$output = 'Debug output of ';
@@ -251,7 +257,7 @@ class Model implements \ArrayAccess, \IteratorAggregate, \Countable, ToArrayInte
 				. "(e.g. \$model->get(\$key)) or accessing the model like an associative array (e.g. \$model['key']).\n\n";
 		$lines = array_slice(explode("\n", trim(print_r($this->toArray(), true))), 2, -1);
 		$output .=  implode("\n", $lines);
-		
+
 		return $output . "\n";
 	}
 }
