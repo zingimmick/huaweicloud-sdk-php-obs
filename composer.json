@@ -9,7 +9,9 @@
 		"monolog/monolog" : "^1.23.0 || ^2.0",
         "psr/http-message": "^1.0"
 	},
-
+	"config": {
+		"sort-packages": true
+	},
 	"keywords" :["obs", "php"],
 	"autoload": {
 		"psr-4": {
