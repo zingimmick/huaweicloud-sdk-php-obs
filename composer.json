@@ -8,7 +8,9 @@
 		"guzzlehttp/psr7" : "^1.4.2 || ^2.0",
 		"monolog/monolog" : "^1.23.0 || ^2.0"
 	},
-
+	"config": {
+		"sort-packages": true
+	},
 	"keywords" :["obs", "php"],
 	"autoload": {
 		"psr-4": {
