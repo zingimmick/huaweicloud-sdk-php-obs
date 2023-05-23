@@ -23,7 +23,7 @@ use Obs\ObsException;
 
 class CheckoutStream implements StreamInterface {
     use StreamDecoratorTrait;
-    
+
     private $expectedLength;
     private $readedCount = 0;
 
@@ -32,7 +32,7 @@ class CheckoutStream implements StreamInterface {
         $this->expectedLength = $expectedLength;
     }
 
-    public function getContents() {
+    public function getContents(): string {
         $contents = $this->stream->getContents();
         $length = strlen($contents);
         if ($this->expectedLength !== null && floatval($length) !== $this->expectedLength) {
@@ -41,7 +41,7 @@ class CheckoutStream implements StreamInterface {
         return $contents;
     }
 
-    public function read($length) {
+    public function read($length): string {
         $string = $this->stream->read($length);
         if ($this->expectedLength !== null) {
             $this->readedCount += strlen($string);
@@ -50,7 +50,7 @@ class CheckoutStream implements StreamInterface {
                     $this -> throwObsException($this->expectedLength, $this->readedCount);
                 }
             }
-        }    
+        }
         return $string;
     }
 
