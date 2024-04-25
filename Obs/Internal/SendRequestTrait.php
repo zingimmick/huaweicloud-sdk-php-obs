@@ -264,10 +264,10 @@ trait SendRequestTrait
 
         $expires = strval($expires);
 
-        $date = $headers['date'];
+        $date = $headers['date'] ?? null;
 
         if (!isset($date)) {
-            $date = $headers['Date'];
+            $date = $headers['Date'] ?? null;
         }
 
         if (!isset($date)) {
