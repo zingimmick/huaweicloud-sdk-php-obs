@@ -287,7 +287,7 @@ trait SendRequestTrait
         if (isset($url['port'])) {
             $port = $url['port'];
             if ($port !== 443 && $port !== 80) {
-                $headers['Host'] = $headers['host'] . ':' . $port;
+                $headers['Host'] = $headers['Host'] . ':' . $port;
             }
         }
 
