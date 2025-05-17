@@ -283,11 +283,11 @@ trait SendRequestTrait
         $longDate = gmdate('Ymd\THis\Z', $timestamp);
         $shortDate = substr($longDate, 0, 8);
 
-        $headers['host'] = $host;
+        $headers['Host'] = $host;
         if (isset($url['port'])) {
             $port = $url['port'];
             if ($port !== 443 && $port !== 80) {
-                $headers['host'] = $headers['host'] . ':' . $port;
+                $headers['Host'] = $headers['host'] . ':' . $port;
             }
         }
 
