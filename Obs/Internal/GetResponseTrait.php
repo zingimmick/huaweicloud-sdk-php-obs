@@ -450,7 +450,11 @@ trait GetResponseTrait
 
     protected function buildException(Request $request, RequestException $exception, $message)
     {
-        $response = $exception->hasResponse() ? $exception->getResponse() : null;
+        if (! class_exists(\GuzzleHttp\Exception\ResponseException::class)) {
+            $response = $exception->hasResponse() ? $exception->getResponse() : null;
+        } else {
+            $response = $exception instanceof \GuzzleHttp\Exception\ResponseException ? $exception->getResponse() : null;
+        }
         $obsException = new ObsException($message ? $message : $exception->getMessage());
         $obsException->setExceptionType('client');
         $obsException->setRequest($request);
@@ -478,7 +482,11 @@ trait GetResponseTrait
 
     protected function parseException(Model $model, Request $request, RequestException $exception, $message = null)
     {
-        $response = $exception->hasResponse() ? $exception->getResponse() : null;
+        if (! class_exists(\GuzzleHttp\Exception\ResponseException::class)) {
+            $response = $exception->hasResponse() ? $exception->getResponse() : null;
+        } else {
+            $response = $exception instanceof \GuzzleHttp\Exception\ResponseException ? $exception->getResponse() : null;
+        }
         if ($this->exceptionResponseMode) {
             throw $this->buildException($request, $exception, $message);
         } else {
